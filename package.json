@@ -1,0 +1,15 @@
+{
+  "name": "Manseth-Visualizer",
+  "version": "1.0.0",
+  "description": "This is a better version of my old Manseth Visualizer",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.0.2"
+  }
+}
