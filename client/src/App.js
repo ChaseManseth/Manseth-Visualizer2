@@ -1,33 +1,39 @@
-// /client/App.js
+// Created By Chase Manseth
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Switch, Route, HashRouter } from 'react-router-dom';
+import Test from './pages/test.js';
 
+// This is the main element that gets rendered for the entire web application
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: null
-    };
-  }
-
-  componentDidMount() {
-    axios.get('http://localhost:3001/').then(response => {
-      this.setState({ data: response.data });
-    }).catch(err => console.log(err));
-  }
-  render() {
-    if(this.state.data === null) {
-      return (
-        <div>Hello World PP</div>
-      );
-    } else {
-      return (
-        <div>{this.state.data}</div>
-      );
+    constructor(props) {
+        super(props);
     }
-    
-  }
+
+    render() {
+        return(
+            <div>
+            
+                <Switch>
+                    <Route path="/login">
+                        <div>
+                            <Test/>
+                        </div>
+                    </Route>
+                    <Route path="/register">
+                        <div>
+                            Register Page
+                        </div>
+                    </Route>
+                    <Route path="/">
+                        <div>
+                            Home Page
+                        </div>
+                    </Route>
+            </Switch>
+            </div>
+        );
+    }
 }
 
 export default App;
