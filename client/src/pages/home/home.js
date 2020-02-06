@@ -4,19 +4,7 @@ import { Typography, Container,CssBaseline } from '@material-ui/core';
 
 
 const styles = theme => ({
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-    },
-    root: {
-        backgroundColor: 'red',
-        marginLeft: theme.spacing(7) + 1,
-        width: `calc(100% - 57px)`,
-        padddingLeft: theme.spacing(3)
-    }
+
 });
 
 class Home extends React.Component {

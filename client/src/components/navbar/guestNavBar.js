@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 
 // Page Imports
 import Home from '../../pages/home/home';
+import Register from '../../pages/register';
 
 
 const drawerWidth = 240;
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: '#202225',
+    // backgroundColor: '#202225',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -46,16 +47,16 @@ const useStyles = makeStyles(theme => ({
   },
   drawerOpen: {
     width: drawerWidth,
-    backgroundColor:'#36393f',
-    color: 'white',
+    // backgroundColor:'#2f3136',
+    // color: 'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerClose: {
-    backgroundColor:'#36393f',
-    color: 'white',
+    // backgroundColor:'#2f3136',
+    // color: 'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -101,6 +102,7 @@ export default function GuestNavBar() {
       <CssBaseline />
       {/* Top NavBar */}
       <AppBar
+        color='dark'
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -157,7 +159,7 @@ export default function GuestNavBar() {
       </Drawer>
 
 
-
+    {/* Main Content */}
       <main className={classes.content}>
         <div className={classes.toolbar} />
         
@@ -170,9 +172,7 @@ export default function GuestNavBar() {
                     </div>
                 </Route>
                 <Route path="/register">
-                    <div>
-                        Register Page
-                    </div>
+                    <Register/>
                 </Route>
                 <Route path="/">
                     <Home/>
