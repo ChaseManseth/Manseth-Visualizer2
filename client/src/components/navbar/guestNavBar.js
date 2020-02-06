@@ -1,22 +1,18 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Drawer, AppBar, Toolbar, List } from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { Drawer, AppBar, Toolbar, List, CssBaseline, Typography,
+Divider, IconButton, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { ChevronLeft, ChevronRight, Inbox, Menu, Mail } from '@material-ui/icons';
+import { Route, Switch } from 'react-router-dom';
+
+// Page Imports
+import Home from '../../pages/home/home';
+
 
 const drawerWidth = 240;
 
+// Styles
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -27,7 +23,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: '#36393f',
+    backgroundColor: '#202225',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -50,12 +46,16 @@ const useStyles = makeStyles(theme => ({
   },
   drawerOpen: {
     width: drawerWidth,
+    backgroundColor:'#36393f',
+    color: 'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerClose: {
+    backgroundColor:'#36393f',
+    color: 'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -76,9 +76,13 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: 'red'
   },
 }));
 
+
+// Main NavBar Function
+// TODO: Might want to break it into subsections
 export default function GuestNavBar() {
   const classes = useStyles();
   const theme = useTheme();
@@ -112,7 +116,7 @@ export default function GuestNavBar() {
               [classes.hide]: open,
             })}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Typography variant="h6" noWrap>
             Manseth Visualizer
@@ -136,7 +140,7 @@ export default function GuestNavBar() {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? <ChevronRight style={{color: 'white'}} /> : <ChevronLeft style={{color: 'white'}}/>}
           </IconButton>
         </div>
         <Divider />
@@ -145,13 +149,37 @@ export default function GuestNavBar() {
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <Inbox style={{color: 'white'}} /> : <Mail style={{color: 'white'}}/>}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
       </Drawer>
-      
+
+
+
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        
+        {/* Everything In Here should be the content and or Routes */}
+            {/* All Routes from / */}
+            <Switch>
+                <Route path="/login">
+                    <div>
+                        Login Pager
+                    </div>
+                </Route>
+                <Route path="/register">
+                    <div>
+                        Register Page
+                    </div>
+                </Route>
+                <Route path="/">
+                    <Home/>
+                </Route>
+            </Switch>
+
+      </main>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import GuestNavBar from '../../components/navbar/guestNavBar';
 import { withStyles, useTheme } from '@material-ui/core/styles';
 import { Typography, Container,CssBaseline } from '@material-ui/core';
 
@@ -36,18 +35,7 @@ class Home extends React.Component {
 
         return (
             <div>
-                <GuestNavBar/>
-                <div className={classes.toolbar} />
-                <Container maxWidth="xl" className={classes.root}>
-                    Hello World abore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                    facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                    gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                    donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                    Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                    imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                    arcu dictum varius duis at consec
-                </Container>
+                Hello I am the home page
             </div>
         );
     }

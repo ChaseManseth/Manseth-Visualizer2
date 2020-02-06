@@ -4,6 +4,9 @@ import axios from 'axios';
 import { Switch, Route } from 'react-router-dom';
 import Test from './pages/test.js';
 
+// Component Imports
+import Header from './components/navbar/guestNavBar';
+
 // Page Imports
 import Home from './pages/home/home.js';
 
@@ -16,22 +19,7 @@ class App extends Component {
     render() {
         return(
             <div>
-                {/* All Routes from / */}
-                <Switch>
-                    <Route path="/login">
-                        <div>
-                            <Test/>
-                        </div>
-                    </Route>
-                    <Route path="/register">
-                        <div>
-                            Register Page
-                        </div>
-                    </Route>
-                    <Route path="/">
-                        <Home/>
-                    </Route>
-            </Switch>
+                <Header></Header>
             </div>
         );
     }
