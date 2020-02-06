@@ -77,7 +77,6 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    backgroundColor: 'red'
   },
 }));
 
@@ -102,7 +101,7 @@ export default function GuestNavBar() {
       <CssBaseline />
       {/* Top NavBar */}
       <AppBar
-        color='dark'
+        color='inherit'
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
