@@ -1,8 +1,11 @@
 // Created By Chase Manseth
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Switch, Route, HashRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Test from './pages/test.js';
+
+// Page Imports
+import Home from './pages/home/home.js';
 
 // This is the main element that gets rendered for the entire web application
 class App extends Component {
@@ -13,7 +16,7 @@ class App extends Component {
     render() {
         return(
             <div>
-            
+                {/* All Routes from / */}
                 <Switch>
                     <Route path="/login">
                         <div>
@@ -26,9 +29,7 @@ class App extends Component {
                         </div>
                     </Route>
                     <Route path="/">
-                        <div>
-                            Home Page
-                        </div>
+                        <Home/>
                     </Route>
             </Switch>
             </div>
