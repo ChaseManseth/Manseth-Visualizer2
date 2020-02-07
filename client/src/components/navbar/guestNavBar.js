@@ -2,9 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Drawer, AppBar, Toolbar, List, CssBaseline, Typography,
-Divider, IconButton, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+Divider, IconButton, ListItem, ListItemIcon, ListItemText, Icon } from '@material-ui/core';
 import { ChevronLeft, ChevronRight, Inbox, Menu, Mail } from '@material-ui/icons';
 import { Route, Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Page Imports
 import Home from '../../pages/home/home';
@@ -47,16 +48,12 @@ const useStyles = makeStyles(theme => ({
   },
   drawerOpen: {
     width: drawerWidth,
-    // backgroundColor:'#2f3136',
-    // color: 'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerClose: {
-    // backgroundColor:'#2f3136',
-    // color: 'white',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -78,6 +75,13 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  brand: {
+      textDecoration: 'none',
+      color: 'white',
+      '&:hover': {
+          color: 'white',
+      },
+  }
 }));
 
 
@@ -119,43 +123,61 @@ export default function GuestNavBar() {
           >
             <Menu />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.brand}
+            component={Link} 
+            to={'/'}
+          >
             Manseth Visualizer
           </Typography>
         </Toolbar>
       </AppBar>
     
-    {/* Side NavBar or Drawer */}
-      <Drawer
+      {/* Side NavBar or Drawer */}
+    <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
+        [classes.drawerOpen]: open,
+        [classes.drawerClose]: !open,
         })}
         classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
+        paper: clsx({
+        [classes.drawerOpen]: open,
+        [classes.drawerClose]: !open,
+        }),
         }}
-      >
+    >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRight style={{color: 'white'}} /> : <ChevronLeft style={{color: 'white'}}/>}
-          </IconButton>
+            <IconButton onClick={handleDrawerClose}>
+                {theme.direction === 'rtl' ? <ChevronRight style={{color: 'white'}} /> : <ChevronLeft style={{color: 'white'}}/>}
+            </IconButton>
         </div>
         <Divider />
 
         {/* The Name of Buttons */}
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <Inbox style={{color: 'white'}} /> : <Mail style={{color: 'white'}}/>}</ListItemIcon>
-              <ListItemText primary={text} />
+            {/* Register */}
+            <ListItem button
+                component={Link} 
+                to={'/register'}
+            >
+                <ListItemIcon>
+                    <Icon className="fas fa-user"></Icon>
+                </ListItemIcon>
+                <ListItemText>Register</ListItemText>
             </ListItem>
-          ))}
+
+            {/* Login */}
+            <ListItem button
+                component={Link} 
+                to={'/login'}
+            >
+                <ListItemIcon>
+                    <Icon className="fas fa-sign-in-alt"></Icon>
+                </ListItemIcon>
+                <ListItemText>Login</ListItemText>
+            </ListItem>
         </List>
-      </Drawer>
+    </Drawer>
 
 
     {/* Main Content */}

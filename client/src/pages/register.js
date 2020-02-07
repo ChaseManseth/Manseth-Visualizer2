@@ -1,7 +1,11 @@
 import React from 'react';
-import { withStyles, useTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { Typography, Container, TextField, Paper, Grid, Button } from '@material-ui/core';
+import { observable, decorate  } from 'mobx';
+import { observer } from 'mobx-react';
 
+// Component imports
+import EmailRegexCheck from '../components/form/emailWithRegex';
 
 const styles = theme => ({
     title: {
@@ -9,22 +13,42 @@ const styles = theme => ({
     }
 });
 
-class Register extends React.Component {
+const Register = observer(class Register extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        // Actual State is in this object
+        const registerState = {
+            email: null,
+            validEmail: false,
+            password: null,
+            validConfirm: false,
+        };
 
+        // decorating objects in the state we want to observe
+        decorate(registerState, {
+            email: observable,
+            password: observable,
+            validConfirm: observable,
+         });
+
+        this.state = {
+            registerState: registerState
         };
     }
 
+
+
+    handleChangeEmail = (email) => {
+        console.log('parent got', email);
+    }
     
     render() {
         const { classes } = this.props;
 
-
         return (
             <Container maxWidth='sm' style={{backgroundColor: 'none'}}>
+
                 <Paper elevation={3}>
                     <Grid container spacing={3} alignItems="center" justify="center"> 
                 
@@ -36,7 +60,8 @@ class Register extends React.Component {
 
                         {/* Email */}
                         <Grid item xs={9}>
-                            <TextField id="email" label="Email" fullWidth />
+                            {/* <TextField id="email" label="Email" fullWidth /> */}
+                            <EmailRegexCheck registerState={this.state.registerState} />
                         </Grid>
 
                         {/* Password */}
@@ -64,6 +89,6 @@ class Register extends React.Component {
             </Container>
         );
     }
-}
+});
 
 export default withStyles(styles)(Register);

@@ -5,7 +5,8 @@ import { Switch, Route } from 'react-router-dom';
 import Test from './pages/test.js';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CssBaseline } from "@material-ui/core";
-
+import { observable, decorate } from 'mobx'
+import { observer, } from 'mobx-react'
 // Custom Theme Import
 import Theme from './theme/darkTheme';
 
@@ -21,12 +22,8 @@ import Home from './pages/home/home.js';
 // #36393f
 
 // This is the main element that gets rendered for the entire web application
-class App extends React.Component {
-    
-
+const App = observer(class App extends React.Component {
     render() {
-        
-    
         return (
             <MuiThemeProvider theme={Theme}>
                 <CssBaseline />
@@ -35,6 +32,10 @@ class App extends React.Component {
         );
     }
     
-}
+});
+
+decorate(App, {
+    taco: observable,
+});
 
 export default App;
