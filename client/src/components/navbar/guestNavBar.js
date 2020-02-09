@@ -1,3 +1,5 @@
+// Author: Chase Manseth
+// Date: 2/6/2020
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';

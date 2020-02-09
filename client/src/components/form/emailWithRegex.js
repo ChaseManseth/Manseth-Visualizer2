@@ -1,3 +1,5 @@
+// Author: Chase Manseth
+// Date: 2/8/2020
 import React from 'react';
 import { observer } from 'mobx-react';
 import { TextField } from '@material-ui/core';
@@ -21,7 +23,7 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
         // console.log('Email Test: ', validEmail, pattern.exec(email));
         if(validEmail) {
             this.setState({validEmail: validEmail});
-            this.props.registerState.validEmail = validEmail;
+            this.props.emailState.validEmail = validEmail;
         } else {
             this.setState({validEmail: false});
             this.setState({errorText: 'Invalid Email Address'});
@@ -29,12 +31,13 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
 
         this.setState({email: email});
 
-        this.props.registerState.email = email;
+        this.props.emailState.email = email;
     }
 
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
     // TODO: Need to check if email already exists in DB
+    // Also generalize this component to allow reuse in other pages
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
     

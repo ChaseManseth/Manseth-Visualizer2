@@ -6,6 +6,8 @@ import { observer } from 'mobx-react';
 
 // Component imports
 import EmailRegexCheck from '../components/form/emailWithRegex';
+import PasswordField from '../components/form/passwordField';
+import ConfirmPasswordField from '../components/form/confirmPassword';
 
 const styles = theme => ({
     title: {
@@ -22,13 +24,16 @@ const Register = observer(class Register extends React.Component {
             email: null,
             validEmail: false,
             password: null,
+            validPassword: false,
             validConfirm: false,
         };
 
         // decorating objects in the state we want to observe
         decorate(registerState, {
             email: observable,
+            validEmail: observable,
             password: observable,
+            validPassword: observable,
             validConfirm: observable,
          });
 
@@ -38,9 +43,15 @@ const Register = observer(class Register extends React.Component {
     }
 
 
+    // This function checks to make sure everything is valid then makes an axios 
+    // call to the register endpoint
+    handleSubmit = () => {
+        let state = this.state.registerState;
 
-    handleChangeEmail = (email) => {
-        console.log('parent got', email);
+        if(state.validEmail && state.validPassword && state.validConfirm) {
+            // TODO Make the axios call
+            console.log(state.email + ' ' + state.password);
+        }
     }
     
     render() {
@@ -61,17 +72,17 @@ const Register = observer(class Register extends React.Component {
                         {/* Email */}
                         <Grid item xs={9}>
                             {/* <TextField id="email" label="Email" fullWidth /> */}
-                            <EmailRegexCheck registerState={this.state.registerState} />
+                            <EmailRegexCheck emailState={this.state.registerState} />
                         </Grid>
 
                         {/* Password */}
                         <Grid item xs={9}>
-                            <TextField type="password" id="password" label="Password" fullWidth />
+                            <PasswordField passwordState={this.state.registerState} />
                         </Grid>
 
                         {/* Confirm Password */}
                         <Grid item xs={9}>
-                            <TextField type="password" id="confirmPassword" label="Confirm Password" fullWidth />
+                            <ConfirmPasswordField passwordState={this.state.registerState} />
                         </Grid>
                     </Grid>
 
@@ -80,7 +91,9 @@ const Register = observer(class Register extends React.Component {
                     <Grid container spacing={3} alignItems="center" justify="center"> 
                         {/* Submit Form */}
                         <Grid item xs={3}>
-                            <Button variant="contained" color="primary" fullWidth>
+                            <Button variant="contained" color="primary" fullWidth
+                                onClick={this.handleSubmit}
+                            >
                                 Submit
                             </Button>
                         </Grid>
