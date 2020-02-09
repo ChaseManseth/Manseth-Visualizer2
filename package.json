@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "dev": "concurrently \"nodemon server.js\" \"cd client && npm start\""
   },
   "keywords": [],
   "author": "Chase Manseth",
