@@ -2,17 +2,26 @@
   "name": "Manseth-Visualizer",
   "version": "1.0.0",
   "description": "This is a better version of my old Manseth Visualizer",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "heroku-prebuild": "concurrently \"cd backend && npm install\" \"cd client && npm install\"",
-    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
-    
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Chase Manseth",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^5.0.2"
+    "concurrently": "^5.0.2",
+    "bcrypt": "^3.0.8",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.3",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0"
   },
   "repository": {
     "type": "git",
