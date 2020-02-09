@@ -1,39 +1,41 @@
 // Created By Chase Manseth
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Switch, Route, HashRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Test from './pages/test.js';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { CssBaseline } from "@material-ui/core";
+import { observable, decorate } from 'mobx'
+import { observer, } from 'mobx-react'
+// Custom Theme Import
+import Theme from './theme/darkTheme';
+
+// Component Imports
+import Header from './components/navbar/guestNavBar';
+
+// Page Imports
+import Home from './pages/home/home.js';
+
+// Colors
+// #202225
+// #2f3136
+// #36393f
 
 // This is the main element that gets rendered for the entire web application
-class App extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+const App = observer(class App extends React.Component {
     render() {
-        return(
-            <div>
-            
-                <Switch>
-                    <Route path="/login">
-                        <div>
-                            <Test/>
-                        </div>
-                    </Route>
-                    <Route path="/register">
-                        <div>
-                            Register Page
-                        </div>
-                    </Route>
-                    <Route path="/">
-                        <div>
-                            Home Page
-                        </div>
-                    </Route>
-            </Switch>
-            </div>
+        return (
+            <MuiThemeProvider theme={Theme}>
+                <CssBaseline />
+                <Header></Header>
+            </MuiThemeProvider>
         );
     }
-}
+    
+});
+
+decorate(App, {
+    taco: observable,
+});
 
 export default App;
