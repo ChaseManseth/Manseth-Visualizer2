@@ -4,7 +4,9 @@
   "description": "This is a better version of my old Manseth Visualizer",
   "main": "index.js",
   "scripts": {
+    "heroku-prebuild": "concurrently \"cd backend && npm install\" \"cd client && npm install\"",
     "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
+    
   },
   "keywords": [],
   "author": "",
