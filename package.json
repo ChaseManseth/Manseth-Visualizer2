@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^5.0.2",
+    "concurrently": "^5.0.2"
   },
   "repository": {
     "type": "git",
