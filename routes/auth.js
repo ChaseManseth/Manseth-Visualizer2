@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
 // REGISTER
 router.post('/register', isEmailUsed, (req, res) => {
     var body = req.body;
+    console.log(body);
     const saltRounds = 10;
 
     // Checking if all parameters are present
@@ -46,7 +47,7 @@ router.post('/register', isEmailUsed, (req, res) => {
                     }, process.env.JWT_SECRET);
 
                     // Sending the JWT token in the response
-                    res.status(200).send({jwt: token});
+                    res.status(201).send({jwt: token});
                 }
             });
            
@@ -55,9 +56,6 @@ router.post('/register', isEmailUsed, (req, res) => {
 });
 
 // LOGIN
-// TODO: 
-// -get User info
-// -validate jwt
 router.post('/login', isEmailValid, (req, res) => {
     const body = req.body;
     var email, password;
@@ -72,7 +70,39 @@ router.post('/login', isEmailValid, (req, res) => {
         password = body.password;
     }
 
+    // Find the user
+    User.findOne({email: body.email}).exec()
+    .then((user) => {
+        if(user !== null) {
+            bcrypt.compare(password, user.password, (err, result) => {
+                // If password is valid generate JWT and return it
+                if(result === true) {
+                    var token = jwt.sign({
+                        user: {
+                            _id: user._id,
+                            email: user.email
+                        }
+                    }, process.env.JWT_SECRET);
 
+                    res.status(200).send({jwt: token});
+                }
+
+                // Invalid Password
+                else {
+                    res.status(400).json({
+                        error: 'Incorrect Password'
+                    });
+                }
+            })
+        } 
+        // No user is found which should never happen
+        else {
+            res.status(403).json({
+                error: 'User not found!'
+            });
+        }
+    })
+    .catch((err) => console.log(err));
 
 });
 

@@ -8,6 +8,7 @@ import { observer } from 'mobx-react';
 import EmailRegexCheck from '../components/form/emailWithRegex';
 import PasswordField from '../components/form/passwordField';
 import ConfirmPasswordField from '../components/form/confirmPassword';
+import * as AxiosAuth from '../axois/auth';
 
 const styles = theme => ({
     title: {
@@ -42,6 +43,7 @@ const Register = observer(class Register extends React.Component {
         };
     }
 
+    // TODO: Perform Error Handling With Parent and Sub-Components
 
     // This function checks to make sure everything is valid then makes an axios 
     // call to the register endpoint
@@ -51,6 +53,16 @@ const Register = observer(class Register extends React.Component {
         if(state.validEmail && state.validPassword && state.validConfirm) {
             // TODO Make the axios call
             console.log(state.email + ' ' + state.password);
+            AxiosAuth.registerUser({
+                email: state.email,
+                password: state.password
+            })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            });
         }
     }
     

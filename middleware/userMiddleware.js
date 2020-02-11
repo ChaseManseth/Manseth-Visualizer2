@@ -19,6 +19,7 @@ module.exports = {
         });
     },
 
+    // If email is found it DB then continue to the next request
     isEmailValid(req, res, next) {
         const email = req.body.email;
         User.findOne({ email: email}).exec()
@@ -27,9 +28,14 @@ module.exports = {
                 next();
             } else {
                 return res.status(403).send({
-                    error: 'Email not recognized'
+                    error: 'Incorrect Email'
                 })
             }
         }).catch((err) => console.log(err));
+    },
+
+    // Check if the user has a valid JWT token
+    isValidated(req, res, next) {
+
     }
 }
