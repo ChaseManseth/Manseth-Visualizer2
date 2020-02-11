@@ -1,26 +1,28 @@
 var express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+// Models and Middleware
 const User = require('../models/user');
-const { isEmailUsed } = require('../middleware/userMiddleware');
+const { isEmailUsed, isEmailValid } = require('../middleware/userMiddleware');
 
 
 router.get('/', (req, res) => {
     res.send('Auth world');
 });
 
-
-// TODO:
-// -Need to error handle
-// -Need to sign and send the jwt as a response
-router.post('/register', isEmailUsed, (req, res, next) => {
+// REGISTER
+router.post('/register', isEmailUsed, (req, res) => {
     var body = req.body;
     const saltRounds = 10;
 
     // Checking if all parameters are present
     if(!body.email || !body.password) {
-        res.status(400).send('Invalid email or password');
+        res.status(400).send({
+            error: 'Invalid email or password'
+        });
     }
 
     // Time to encrypt the password
@@ -30,12 +32,48 @@ router.post('/register', isEmailUsed, (req, res, next) => {
             var user = new User({email: body.email, password: hash});
 
             user.save((err, user) => {
-                if(err) return console.log(err);
-                res.status(200).send('User Created successfully');
+                if(err) {
+                    res.status(500).send({
+                        error: 'There was an error creating the account'
+                    });
+                } else {
+                    // Generate the JWT
+                    var token = jwt.sign({
+                        user: {
+                            _id: user._id,
+                            email: user.email
+                        }
+                    }, process.env.JWT_SECRET);
+
+                    // Sending the JWT token in the response
+                    res.status(200).send({jwt: token});
+                }
             });
            
         });
     });
+});
+
+// LOGIN
+// TODO: 
+// -get User info
+// -validate jwt
+router.post('/login', isEmailValid, (req, res) => {
+    const body = req.body;
+    var email, password;
+
+    // Checking to make sure that the email and password are present
+    if(!body.email || !body.password) {
+        res.status(400).send({
+            error: 'Email or password is not present!'
+        });
+    } else {
+        email = body.email;
+        password = body.password;
+    }
+
+
+
 });
 
 module.exports = router;
