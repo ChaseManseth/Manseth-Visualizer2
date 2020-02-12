@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
 import EmailRegexCheck from '../components/form/emailWithRegex';
 import PasswordField from '../components/form/passwordField';
 import ConfirmPasswordField from '../components/form/confirmPassword';
-import * as AxiosAuth from '../axois/auth';
+import * as Auth from '../axois/auth';
 
 // Importing global state
 import {globalState} from '../state/globalState';
@@ -57,7 +57,7 @@ const Register = observer(class Register extends React.Component {
         let state = this.state.registerState;
 
         if(state.validEmail && state.validPassword && state.validConfirm) {
-            AxiosAuth.registerUser({
+            Auth.registerUser({
                 email: state.email,
                 password: state.password
             })
@@ -109,7 +109,7 @@ const Register = observer(class Register extends React.Component {
 
                         {/* Confirm Password */}
                         <Grid item xs={9}>
-                            <ConfirmPasswordField passwordState={this.state.registerState} />
+                            <ConfirmPasswordField passwordState={this.state.registerState} password={this.state.registerState.password}/>
                         </Grid>
                     </Grid>
 

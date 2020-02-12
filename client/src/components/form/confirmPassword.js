@@ -9,14 +9,24 @@ const ConfirmPasswordField = observer(class ConfirmPasswordField extends React.C
         super(props);
 
         this.state = {
+            password: null,
             confirmPassword: null,
             same: false
         };
     }
 
+    // Getting the password after every change
+    componentDidUpdate(prevProps) {
+        if(this.props.password !== prevProps.password) {
+            let password = this.props.password;
+            this.setState({ password: password });
+            this.comparePassword(password, this.state.confirmPassword);
+        }
+    }
+
     // Seeing if the passwords match
-    comparePassword = (confirmPassword) => {
-        let password = this.props.passwordState.password;
+    comparePassword = (password, confirmPassword) => {
+        console.log(password, confirmPassword);
         if(password === confirmPassword) {
             // Change state and notify parent
             this.setState({same: true});
@@ -27,10 +37,10 @@ const ConfirmPasswordField = observer(class ConfirmPasswordField extends React.C
         }
     }
 
-    handleConfirmPasswordChange = (password) => {
-        this.setState({confirmPassword: password});
+    handleConfirmPasswordChange = (confirmPassword) => {
+        this.setState({confirmPassword: confirmPassword});
         // Check if the passwords are the same
-        this.comparePassword(password);
+        this.comparePassword(this.state.password, confirmPassword);
     }
 
 

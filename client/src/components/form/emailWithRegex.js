@@ -4,6 +4,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { TextField } from '@material-ui/core';
 
+// Axios call import
+import * as User from '../../axois/user';
+
 const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
     constructor(props) {
         super(props);
@@ -37,6 +40,7 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
         } else {
             this.setState({validEmail: false});
             this.setState({errorText: 'Invalid Email Address'});
+            this.props.emailState.validEmail = validEmail;
         }
 
         this.setState({email: email});
@@ -44,12 +48,21 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
         this.props.emailState.email = email;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////
-    // TODO: Need to check if email already exists in DB
-    // Also generalize this component to allow reuse in other pages
-    ////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////
+    // This is used to check if the user email already exists in the database
+    onExitFocus = (email) => {
+        User.checkEmail(email).then((response) => {
+            let result = response.data.valid;
+            if(result) {
+                this.setState({
+                    validEmail: false,
+                    errorText: 'Email already exists!'
+                });
+
+                // Notify Parent
+                this.props.emailState.validEmail = false;
+            }
+        }).catch((error) => console.log(error));
+    }
     
     render() {
         if(!this.state.validEmail) {
@@ -64,8 +77,9 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
 
         return(
             <TextField id="email" label="Email" fullWidth 
-                onChange={(event) =>this.handleEmailChange(event.target.value)}
-                value={this.state.email == null ? '' : this.state.email}  
+                onChange={(event) => this.handleEmailChange(event.target.value)}
+                value={this.state.email == null ? '' : this.state.email}
+                onBlur={(event) => this.onExitFocus(event.target.value)}  
             />
         );
     }
