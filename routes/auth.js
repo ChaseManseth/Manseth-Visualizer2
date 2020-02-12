@@ -8,7 +8,7 @@ require('dotenv').config();
 const User = require('../models/user');
 const { isEmailUsed, isEmailValid } = require('../middleware/userMiddleware');
 
-
+// TODO: need to deal with error pages
 router.get('/', (req, res) => {
     res.send('Auth world');
 });

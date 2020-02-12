@@ -8,6 +8,7 @@ const logger = require('morgan');
 
 // Imported Routes
 var authRoutes = require('./routes/auth');
+var userRoutes = require('./routes/user');
 
 
 const API_PORT = process.env.PORT || 3001;
@@ -36,6 +37,7 @@ app.use(logger('dev'));
 
 // Auth Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 // Production use. Used to serve up the frontend build file
 if(process.env.NODE_ENV === 'production') {
