@@ -11,7 +11,7 @@ import jwtDecode from 'jwt-decode';
 import Theme from './theme/darkTheme';
 
 // Component Imports
-import Header from './components/navbar/guestNavBar';
+import Header from './components/navbar/navbar';
 
 // Global State
 import {globalState} from './state/globalState';

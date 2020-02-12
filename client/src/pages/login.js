@@ -48,6 +48,39 @@ const Login = observer(class Login extends React.Component {
 
     // Login the user
     handleSubmit= () => {
+        let email = this.state.loginState.email;
+        let password = this.state.loginState.password;
+
+        console.log(email, password);
+        Auth.login({ email: email, password: password })
+        // Login successful
+        .then((response) => {
+            // Save the jwt as a cookie just in case and redirect
+            cookie.save('JWT', response.data.jwt, { path: '/', maxAge: 3600 * 24 * 7 });
+            // Saving the JWT in the global state
+            globalState.appState.jwt = response.data.jwt;
+            globalState.appState.user = jwtDecode(response.data.jwt);
+            // Redirect to the home page
+            this.props.history.push('/');
+        })
+        // Login failed
+        .catch((error) => {
+            if(error.response !== undefined) {
+                let err = error.response.data.error;
+
+                // Report the password Error
+                if(err.toLowerCase().includes('password')) {
+                    this.setState({passwordError: err});
+                }
+
+                // Rrport the email Error
+                else if(err.toLowerCase().includes('email')) {
+                    this.setState({emailError: err});
+                }
+            } else {
+                console.log(error);
+            }
+        })
 
     }
 

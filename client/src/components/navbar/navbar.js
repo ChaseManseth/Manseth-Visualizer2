@@ -8,12 +8,18 @@ Divider, IconButton, ListItem, ListItemIcon, ListItemText, Icon } from '@materia
 import { ChevronLeft, ChevronRight, Menu } from '@material-ui/icons';
 import { Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 // Page Imports
 import Home from '../../pages/home/home';
 import Register from '../../pages/register';
 import Login from '../../pages/login';
 
+// Component Imports
+import NavBarItems from '../navbar/navbarItems';
+
+// Importing global state
+import {globalState} from '../../state/globalState';
 
 const drawerWidth = 240;
 
@@ -90,7 +96,7 @@ const useStyles = makeStyles(theme => ({
 
 // Main NavBar Function
 // TODO: Might want to break it into subsections
-export default function GuestNavBar() {
+const NavBar = observer(function NavBar() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -157,29 +163,7 @@ export default function GuestNavBar() {
         <Divider />
 
         {/* The Name of Buttons */}
-        <List>
-            {/* Register */}
-            <ListItem button
-                component={Link} 
-                to={'/register'}
-            >
-                <ListItemIcon>
-                    <Icon className="fas fa-user"></Icon>
-                </ListItemIcon>
-                <ListItemText>Register</ListItemText>
-            </ListItem>
-
-            {/* Login */}
-            <ListItem button
-                component={Link} 
-                to={'/login'}
-            >
-                <ListItemIcon>
-                    <Icon className="fas fa-sign-in-alt"></Icon>
-                </ListItemIcon>
-                <ListItemText>Login</ListItemText>
-            </ListItem>
-        </List>
+        <NavBarItems />
     </Drawer>
 
 
@@ -188,16 +172,18 @@ export default function GuestNavBar() {
         <div className={classes.toolbar} />
         
         {/* Everything In Here should be the content and or Routes */}
-            {/* All Routes from / */}
-            <Switch>
-                <Route exact path="/login" render = {(props) => <Login {...props}/>} />
-                <Route exact path="/register" render = {(props) => <Register {...props}/>} />
-                <Route path="/">
-                    <Home/>
-                </Route>
-            </Switch>
+        {/* All Routes from / */}
+        <Switch>
+            <Route exact path="/login" render = {(props) => <Login {...props}/>} />
+            <Route exact path="/register" render = {(props) => <Register {...props}/>} />
+            <Route path="/">
+                <Home/>
+            </Route>
+        </Switch>
 
       </main>
     </div>
   );
-}
+});
+
+export default NavBar;
