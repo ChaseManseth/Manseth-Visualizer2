@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
 // REGISTER
 router.post('/register', isEmailUsed, (req, res) => {
     var body = req.body;
-    console.log(body);
     const saltRounds = 10;
 
     // Checking if all parameters are present

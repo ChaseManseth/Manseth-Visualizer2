@@ -1,6 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import {} from "@material-ui/core/colors";
 
+// Colors
+// #202225
+// #2f3136
+// #36393f
+
 const theme = createMuiTheme({
     palette: {
         primary: {

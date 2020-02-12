@@ -16,6 +16,16 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.emailError !== prevProps.emailError) {
+            this.setState({
+                errorText: this.props.emailError, 
+                usedEmail: true, 
+                validEmail: false
+            });
+        }
+    }
+
     handleEmailChange = (email) => {
         var pattern = new RegExp(".+@.+\\..+", "g");
         var validEmail = pattern.exec(email) !== null;

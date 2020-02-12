@@ -1,14 +1,19 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, Container, TextField, Paper, Grid, Button } from '@material-ui/core';
+import { Typography, Container, Paper, Grid, Button } from '@material-ui/core';
 import { observable, decorate  } from 'mobx';
 import { observer } from 'mobx-react';
+import cookie from 'react-cookies';
+import jwtDecode from 'jwt-decode';
 
 // Component imports
 import EmailRegexCheck from '../components/form/emailWithRegex';
 import PasswordField from '../components/form/passwordField';
 import ConfirmPasswordField from '../components/form/confirmPassword';
 import * as AxiosAuth from '../axois/auth';
+
+// Importing global state
+import {globalState} from '../state/globalState';
 
 const styles = theme => ({
     title: {
@@ -39,7 +44,8 @@ const Register = observer(class Register extends React.Component {
          });
 
         this.state = {
-            registerState: registerState
+            registerState: registerState,
+            emailError: ''
         };
     }
 
@@ -51,17 +57,26 @@ const Register = observer(class Register extends React.Component {
         let state = this.state.registerState;
 
         if(state.validEmail && state.validPassword && state.validConfirm) {
-            // TODO Make the axios call
-            console.log(state.email + ' ' + state.password);
             AxiosAuth.registerUser({
                 email: state.email,
                 password: state.password
             })
+            // Registreation successful!
             .then((response) => {
-                console.log(response.data);
+                // Save the jwt as a cookie just in case and redirect
+                cookie.save('JWT', response.data.jwt, { path: '/', maxAge: 3600 * 24 * 7 });
+                // Saving the JWT in the global state
+                globalState.appState.jwt = response.data.jwt;
+                globalState.appState.user = jwtDecode(response.data.jwt);
+                // Redirect to the home page
+                this.props.history.push('/');
             })
             .catch((error) => {
-                console.log(error.response);
+                if(error.response !== undefined) {
+                    this.setState({emailError: error.response.data.error});
+                } else {
+                    console.log(error);
+                }
             });
         }
     }
@@ -84,7 +99,7 @@ const Register = observer(class Register extends React.Component {
                         {/* Email */}
                         <Grid item xs={9}>
                             {/* <TextField id="email" label="Email" fullWidth /> */}
-                            <EmailRegexCheck emailState={this.state.registerState} />
+                            <EmailRegexCheck emailState={this.state.registerState} emailError={this.state.emailError} />
                         </Grid>
 
                         {/* Password */}

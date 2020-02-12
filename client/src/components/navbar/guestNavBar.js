@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Drawer, AppBar, Toolbar, List, CssBaseline, Typography,
 Divider, IconButton, ListItem, ListItemIcon, ListItemText, Icon } from '@material-ui/core';
-import { ChevronLeft, ChevronRight, Inbox, Menu, Mail } from '@material-ui/icons';
+import { ChevronLeft, ChevronRight, Menu } from '@material-ui/icons';
 import { Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -194,9 +194,7 @@ export default function GuestNavBar() {
                         Login Pager
                     </div>
                 </Route>
-                <Route path="/register">
-                    <Register/>
-                </Route>
+                <Route exact path="/register" render = {(props) => <Register {...props}/>} />
                 <Route path="/">
                     <Home/>
                 </Route>
