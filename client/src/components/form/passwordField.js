@@ -45,15 +45,53 @@ const PasswordField = observer(class PasswordField extends React.Component {
         this.state = {
             password: null,
             validPassword: false,
-            errorText: ''
+            errorText: '',
+            noValidate: false,
+            noValidMessage: false,
         };
     }
 
+    // Load in component settings
+    componentDidMount() {
+        const props = this.props;
+        
+        // No validation setting
+        if(props.noValidation !== undefined) {
+            this.setState({noValidate: true});
+        }
+
+        // No valid message
+        if(props.noValidMessage !== undefined) {
+            this.setState({noValidMessage: true});
+        }
+    }
+
+    // See if an error has been passed down from the parent component
+    componentDidUpdate(prevProps) {
+        if(this.props.passwordError !== prevProps.passwordError) {
+            this.setState({
+                errorText: this.props.passwordError,
+                validPassword: false
+            });
+        }
+    }
+
     handlePasswordChange = (password) => {
+        // Let parent know password
+        this.props.passwordState.password = password;
+        this.setState({password: password});
+        
+        // If prop has no validate setting then skip
+        if(this.state.noValidate) {
+            this.setState({validPassword: true});
+            return;
+        }
+
+        // Validate the password
         var validResult = validatePassword(password);
 
         // If password passes all requirements then 
-        if(validResult == 0) {
+        if(validResult === 0) {
             // Notify the parent and change valid state
             this.props.passwordState.validPassword = true;
 
@@ -66,13 +104,14 @@ const PasswordField = observer(class PasswordField extends React.Component {
             var errorMsg = '';
             // Get the error values and print a meaningful error message
             while(validResult > 0) {
-                if(validResult % 2 == 1) {
+                if(validResult % 2 === 1) {
                     
                     // Short Length Error
                     switch(bitPos) {
                         case 0: errorMsg += 'Password is too short.\n'; break;
                         case 1: errorMsg += 'Password needs to contain at least one capital letter.\n'; break;
                         case 2: errorMsg += 'Password needs to contain at least one special character.\n'; break;
+                        default: break;
                     }
                 }
                 bitPos++;
@@ -88,10 +127,6 @@ const PasswordField = observer(class PasswordField extends React.Component {
                 validPassword: false
             });
         }
-
-        // Let parent know password
-        this.props.passwordState.password = password;
-        this.setState({password: password});
     }
 
     render() {
@@ -106,7 +141,7 @@ const PasswordField = observer(class PasswordField extends React.Component {
             );
         } 
         // Valid
-        else if(this.state.password !== null && this.state.validPassword) {
+        else if(this.state.password !== null && this.state.validPassword && !this.state.noValidMessage) {
             return (
                 <TextField type="password" id="password" label="Password" fullWidth 
                     onChange={(event) => this.handlePasswordChange(event.target.value)}

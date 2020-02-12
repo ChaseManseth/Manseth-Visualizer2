@@ -49,8 +49,8 @@ const Register = observer(class Register extends React.Component {
         };
     }
 
-    // TODO: Perform Error Handling With Parent and Sub-Components
 
+    // Register the User
     // This function checks to make sure everything is valid then makes an axios 
     // call to the register endpoint
     handleSubmit = () => {

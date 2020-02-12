@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 // Page Imports
 import Home from '../../pages/home/home';
 import Register from '../../pages/register';
+import Login from '../../pages/login';
 
 
 const drawerWidth = 240;
@@ -189,11 +190,7 @@ export default function GuestNavBar() {
         {/* Everything In Here should be the content and or Routes */}
             {/* All Routes from / */}
             <Switch>
-                <Route path="/login">
-                    <div>
-                        Login Pager
-                    </div>
-                </Route>
+                <Route exact path="/login" render = {(props) => <Login {...props}/>} />
                 <Route exact path="/register" render = {(props) => <Register {...props}/>} />
                 <Route path="/">
                     <Home/>

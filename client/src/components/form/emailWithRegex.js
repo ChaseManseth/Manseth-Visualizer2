@@ -15,8 +15,19 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
             email: null,
             validEmail: true,
             usedEmail: false,
-            errorText: ''
+            errorText: '',
+            noEmailCheck: false,
         };
+    }
+
+    // Load in settings
+    componentDidMount() {
+        const prop = this.props;
+
+        // This will prevent an email check in the DB
+        if(prop.noEmailCheck !== undefined) {
+            this.setState({noEmailCheck: true});
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -50,18 +61,21 @@ const EmailRegexCheck = observer(class EmailRegexCheck extends React.Component {
 
     // This is used to check if the user email already exists in the database
     onExitFocus = (email) => {
-        User.checkEmail(email).then((response) => {
-            let result = response.data.valid;
-            if(result) {
-                this.setState({
-                    validEmail: false,
-                    errorText: 'Email already exists!'
-                });
+        // If noEmailCheck is false, do a check
+        if(!this.state.noEmailCheck) {
+            User.checkEmail(email).then((response) => {
+                let result = response.data.valid;
+                if(result) {
+                    this.setState({
+                        validEmail: false,
+                        errorText: 'Email already exists!'
+                    });
 
-                // Notify Parent
-                this.props.emailState.validEmail = false;
-            }
-        }).catch((error) => console.log(error));
+                    // Notify Parent
+                    this.props.emailState.validEmail = false;
+                }
+            }).catch((error) => console.log(error));
+        }
     }
     
     render() {
